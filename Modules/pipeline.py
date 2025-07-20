@@ -1,10 +1,8 @@
 # %matplotlib ipympl   
 # %matplotlib widget     
-import cv2 as cv
 import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
-import geopandas as gpd
 import seaborn as sns
 import pickle
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -55,7 +53,6 @@ class pipeline:
         if isinstance(self.y.iloc[0], str):
             self.encoder = LabelEncoder()
             self.y = self.encoder.fit_transform(self.y)
-
     def preprocessing(self):
         transformers = []
 
@@ -76,7 +73,7 @@ class pipeline:
         if self.cat_col:
             categorical_pipe = Pipeline(steps=[
                 ('imputer', SimpleImputer(strategy='most_frequent')),
-                ('encoder', OneHotEncoder(drop='first', handle_unknown='ignore'))
+                ('encoder', OneHotEncoder(drop='first', handle_unknown='ignore', sparse_output=False))  # Note sparse_output=False
             ])
             transformers.append(('cat', categorical_pipe, self.cat_col))
 
@@ -85,7 +82,6 @@ class pipeline:
 
         preprocessor = ColumnTransformer(transformers=transformers)
         return preprocessor
-
 
     def save_model(self):
         self.pipelinee = Pipeline(steps=[

@@ -1,10 +1,8 @@
 # %matplotlib ipympl   
 # %matplotlib widget     
-import cv2 as cv
 import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
-import geopandas as gpd
 import seaborn as sns
 import pickle
 from sklearn.base import BaseEstimator, TransformerMixin

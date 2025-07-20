@@ -490,13 +490,10 @@ elif selected_nav == "💾 Download Pipeline":
                     target_type=st.session_state.task_type
                 )
                 pipe.train_test()
-                st.write('0')
                 pipe.save_model()
-                st.write('1')
                 # Store the trained pipeline in session state
                 st.session_state.trained_pipeline = pipe.pipelinee
                 st.session_state.encoder = pipe.encoder
-                st.write('2')
                 
                 st.success("✅ Pipeline prepared successfully!")
                 

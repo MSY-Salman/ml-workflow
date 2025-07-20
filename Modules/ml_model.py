@@ -1,10 +1,8 @@
 # %matplotlib ipympl   
 # %matplotlib widget     
-import cv2 as cv
 import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
-import geopandas as gpd
 import seaborn as sns
 import pickle
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -46,11 +44,21 @@ class ml_model:
         self.best_score=None
         self.scores=[]
     def train_test(self):
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=0.2, random_state=42)
-        if isinstance(self.data[self.target].iloc[0], str):
-            enc = LabelEncoder()
-            self.X_train[self.target] = enc.fit_transform(self.X_train[self.target])
-            self.X_test[self.target] = enc.transform(self.X_test[self.target])
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(
+            self.X, self.y, test_size=0.2, random_state=42
+        )
+        
+        # Ensure arrays are contiguous and properly typed
+        if isinstance(self.y.iloc[0], str):
+            self.encoder = LabelEncoder()
+            self.y_train = self.encoder.fit_transform(self.y_train)
+            self.y_test = self.encoder.transform(self.y_test)
+        
+        # Convert to numpy arrays and ensure contiguity
+        self.X_train = np.ascontiguousarray(self.X_train)
+        self.X_test = np.ascontiguousarray(self.X_test)
+        self.y_train = np.ascontiguousarray(self.y_train)
+        self.y_test = np.ascontiguousarray(self.y_test)
     def pca(self):
         if len(self.col) > 100:
             pca = PCA(n_components=int(np.sqrt(len(self.col))))
@@ -264,7 +272,13 @@ class ml_model:
         
 
     def model_selection(self):
+        # Ensure data is contiguous before model training
+        self.X_train = np.ascontiguousarray(self.X_train)
+        self.X_test = np.ascontiguousarray(self.X_test)
+        self.y_train = np.ascontiguousarray(self.y_train)
+        self.y_test = np.ascontiguousarray(self.y_test)
+        
         if self.target_type == 'R':
-            self.best_model,self.best_score=self.get_best_regression()
+            self.best_model, self.best_score = self.get_best_regression()
         else:
-            self.best_model,self.best_score= self.get_best_classification()
+            self.best_model, self.best_score = self.get_best_classification()
