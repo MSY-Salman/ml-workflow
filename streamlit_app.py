@@ -1,7 +1,9 @@
+import os
+os.environ["PYTHONWARNINGS"] = "ignore"  
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3" 
 import streamlit as st
 import pandas as pd
 import joblib
-import os
 import numpy as np
 import datetime
 import matplotlib.pyplot as plt
