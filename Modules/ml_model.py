@@ -11,9 +11,6 @@ import os
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVR, SVC
 import matplotlib.pyplot as plt
-from imblearn.under_sampling import RandomUnderSampler
-from imblearn.over_sampling import RandomOverSampler,SMOTE
-from imblearn.ensemble import BalancedRandomForestClassifier,BalancedBaggingClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.decomposition import PCA
 from sklearn.datasets import make_regression,make_classification

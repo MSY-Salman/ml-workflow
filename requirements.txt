@@ -15,7 +15,6 @@ seaborn==0.12.2
 
 # Optional (comment out if not absolutely needed)
 xgboost==2.1.4
-opencv-python-headless==4.11.0.86
 
 # Utilities
 python-dateutil==2.9.0
